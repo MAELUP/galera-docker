@@ -1,0 +1,48 @@
+[mysqld]
+binlog_format=ROW
+default-storage-engine=innodb
+innodb_autoinc_lock_mode=2
+bind-address=0.0.0.0
+
+# Galera Provider Configuration
+wsrep_on=ON
+wsrep_provider=/usr/lib/galera/libgalera_smm.so
+
+# Galera Cluster Configuration
+wsrep_cluster_name="galera_cluster"
+wsrep_cluster_address="gcomm://192.168.10.10,192.168.10.11,192.168.10.12"
+
+# Galera Synchronization Configuration
+wsrep_sst_method=rsync
+
+# Galera Node Configuration
+wsrep_node_address="192.168.10.10"
+wsrep_node_name="node0"
+
+
+# Enable data-at-rest encryption
+#encrypt_binlog                              = ON
+#encrypt_tmp_disk_tables                     = ON
+#encrypt_tmp_files                           = ON
+#innodb_encrypt_log                          = ON
+#innodb_encrypt_tables                       = ON
+#innodb_encrypt_temporary_tables             = ON
+#master_verify_checksum                      = ON
+#log_slave_updates                           = ON
+#log_bin                                     = node0
+#binlog_checksum                             = CRC32
+#plugin_load_add                             = file_key_management
+#file_key_management_encryption_algorithm    = aes_cbc
+#file_key_management_filename                = /etc/mysql/encryption/keyfile.enc
+#file_key_management_filekey                 = FILE:/etc/mysql/encryption/.keyfile.key
+
+# Enable data-in-transit encryption
+#require_secure_transport                    = ON
+#tls_version                                 = TLSv1.2,TLSv1.3
+#ssl_ca                                      = /etc/ssl/galera/ca.pem
+#ssl_key                                     = /etc/ssl/galera/tls.key
+#ssl_cert                                    = /etc/ssl/galera/tls.crt
+
+# Enable replication traffic encryption
+#wsrep_provider_options                      = "socket.ssl_key=/etc/ssl/galera/tls.key;socket.ssl_cert=/etc/ssl/galera/tls.crt;socket.ssl_ca=/etc/ssl/galera/ca.pem"
+

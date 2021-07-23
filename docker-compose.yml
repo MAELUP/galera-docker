@@ -1,0 +1,80 @@
+version: '3' 
+networks:
+  default:
+    name:
+      global_network
+  maria-network:
+    driver: bridge
+    ipam: 
+      config: 
+       - subnet: 192.168.10.0/16
+services:
+#  nginx:
+#    image: nginx:1.21.1
+#    container_name: nginx
+#    hostname: nginx
+#    ports:
+#      - "80:80"
+#    volumes:
+#      - ./conf.d/proxy-nginx.conf:/etc/nginx/conf.d/
+  node0:
+    image: mariadb:10.5.11-focal
+    container_name: node0
+    hostname: node0
+    environment:
+      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
+      TZ: Asia/Bangkok
+      MARIADB_GALERA_FORCE_SAFETOBOOTSTRAP: 1
+    restart: always 
+    command: --maria-new-cluster
+    volumes: 
+       - ./conf.d/mariaDB/galera-node0.cnf:/etc/mysql/conf.d/galera.cnf  
+       - ./data/node0/mysql:/var/lib/mysql
+#       - ./conf.d/mariaDB-encryption/keyfile.enc:/etc/mysql/encryption/keyfile.enc
+#       - ./conf.d/mariaDB-encryption/.keyfile.key:/etc/mysql/encryption/.keyfile.key
+#       - ./conf.d/mariaDB-ssl/ca.pem:/etc/ssl/galera/ca.pem
+#       - ./conf.d/mariaDB-ssl/tls.key:/etc/ssl/galera/tls.key
+#       - ./conf.d/mariaDB-ssl/tls.crt:/etc/ssl/galera/tls.crt
+    command: --wsrep-new-cluster 
+    networks:
+      maria-network:
+        ipv4_address: 192.168.10.10
+  node1:
+    image: mariadb:10.5.11-focal
+    container_name: node1
+    hostname: node1
+    environment:
+      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
+      TZ: Asia/Bangkok
+    restart: always
+    volumes:
+      - ./conf.d/mariaDB/galera-node1.cnf:/etc/mysql/conf.d/galera.cnf
+      - ./data/node1/mysql:/var/lib/mysql
+#      - ./conf.d/mariaDB-encryption/keyfile.enc:/etc/mysql/encryption/keyfile.enc
+#      - ./conf.d/mariaDB-encryption/.keyfile.key:/etc/mysql/encryption/.keyfile.key
+#      - ./conf.d/mariaDB-ssl/ca.pem:/etc/ssl/galera/ca.pem
+#      - ./conf.d/mariaDB-ssl/tls.key:/etc/ssl/galera/tls.key
+#      - ./conf.d/mariaDB-ssl/tls.crt:/etc/ssl/galera/tls.crt
+    networks:
+      maria-network:
+        ipv4_address: 192.168.10.11
+  node2:
+    image: mariadb:10.5.11-focal
+    container_name: node2
+    hostname: node2
+    environment:
+      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
+      TZ: Asia/Bangkok
+    restart: always
+    volumes:
+      - ./conf.d/mariaDB/galera-node2.cnf:/etc/mysql/conf.d/galera.cnf
+      - ./data/node2/mysql:/var/lib/mysql
+#$      - ./conf.d/mariaDB-encryption/keyfile.enc:/etc/mysql/encryption/keyfile.enc
+#      - ./conf.d/mariaDB-encryption/.keyfile.key:/etc/mysql/encryption/.keyfile.key
+#      - ./conf.d/mariaDB-ssl/ca.pem:/etc/ssl/galera/ca.pem
+#      - ./conf.d/mariaDB-ssl/tls.key:/etc/ssl/galera/tls.key
+#      - ./conf.d/mariaDB-ssl/tls.crt:/etc/ssl/galera/tls.crt
+    networks:
+      maria-network:
+        ipv4_address: 192.168.10.12
+
