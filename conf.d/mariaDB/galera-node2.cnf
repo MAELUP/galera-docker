@@ -1,3 +1,6 @@
+[mysqladmin]
+user=haproxy
+
 [mysqld]
 binlog_format=ROW
 default-storage-engine=innodb
@@ -36,12 +39,12 @@ wsrep_node_name="node2"
 #file_key_management_filekey                 = FILE:/etc/mysql/encryption/.keyfile.key
 
 # Enable data-in-transit encryption
-#require_secure_transport                    = ON
-#tls_version                                 = TLSv1.2,TLSv1.3
-#ssl_ca                                      = /etc/ssl/galera/ca.pem
-#ssl_key                                     = /etc/ssl/galera/tls.key
-#ssl_cert                                    = /etc/ssl/galera/tls.crt
+require_secure_transport                    = ON
+tls_version                                 = TLSv1.2,TLSv1.3
+ssl_ca                                      = /etc/ssl/galera/ca.pem
+ssl_key                                     = /etc/ssl/galera/tls.key
+ssl_cert                                    = /etc/ssl/galera/tls.crt
 
 # Enable replication traffic encryption
-#wsrep_provider_options                      = "socket.ssl_key=/etc/ssl/galera/tls.key;socket.ssl_cert=/etc/ssl/galera/tls.crt;socket.ssl_ca=/etc/ssl/galera/ca.pem"
+wsrep_provider_options                      = "socket.ssl_key=/etc/ssl/galera/tls.key;socket.ssl_cert=/etc/ssl/galera/tls.crt;socket.ssl_ca=/etc/ssl/galera/ca.pem"
 
