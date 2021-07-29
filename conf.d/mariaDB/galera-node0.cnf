@@ -1,6 +1,3 @@
-[mysqladmin]
-user=haproxy
-
 [mysqld]
 binlog_format=ROW
 default-storage-engine=innodb

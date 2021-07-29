@@ -14,11 +14,11 @@ services:
     container_name: node0
     hostname: node0
     environment:
-      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
+#      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
       TZ: Asia/Bangkok
       MARIADB_GALERA_FORCE_SAFETOBOOTSTRAP: 1
 #      MYSQL_USER: haproxy
-#      MYSQL_ALLOW_EMPTY_PASSWORD: 1
+      MYSQL_ALLOW_EMPTY_PASSWORD: 1
     restart: always 
     volumes: 
        - ./conf.d/mariaDB/galera-node0.cnf:/etc/mysql/conf.d/galera.cnf  
@@ -37,9 +37,9 @@ services:
     container_name: node1
     hostname: node1
     environment:
-      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
+#      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
       TZ: Asia/Bangkok
-      MYSQL_USER: haproxy
+#      MYSQL_USER: haproxy
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     restart: always
     volumes:
@@ -58,9 +58,9 @@ services:
     container_name: node2
     hostname: node2
     environment:
-      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
+#      MYSQL_ROOT_PASSWORD: root_P@ssw0rd
       TZ: Asia/Bangkok
-      MYSQL_USER: haproxy
+#      MYSQL_USER: haproxy
       MYSQL_ALLOW_EMPTY_PASSWORD: 1
     restart: always
     volumes:
@@ -74,23 +74,23 @@ services:
     networks:
       maria-network:
         ipv4_address: 192.168.10.12
-#  haproxy:
-#    image: haproxy:2.4.2  
-#    container_name: haproxy
-#    hostname: haproxy
-#    environment:
-#      DB0_ADDRESS: 192.168.10.10
-#      DB1_ADDRESS: 192.168.10.11
-#      DB2_ADDRESS: 192.168.10.12
-#      DB0_PORT: 3306
-#      DB1_PORT: 3306
-#      DB2_PORT: 3306
-#    restart: always
-#    ports:
-#      - 8080:80 
-#    volumes:
-#      - ./conf.d/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
-#    networks:
-#      maria-network:
-#        ipv4_address: 192.168.10.13
+  haproxy:
+    image: haproxy:2.4.2 
+    container_name: haproxy
+    hostname: haproxy
+    environment:
+      DB0_ADDRESS: 192.168.10.10
+      DB1_ADDRESS: 192.168.10.11
+      DB2_ADDRESS: 192.168.10.12
+      DB0_PORT: 3306
+      DB1_PORT: 3306
+      DB2_PORT: 3306
+    restart: always
+    ports:
+      - 8080:9000 
+    volumes:
+      - ./conf.d/haproxy/haproxy.cfg:/usr/local/etc/haproxy/haproxy.cfg
+    networks:
+      maria-network:
+        ipv4_address: 192.168.10.13
 
