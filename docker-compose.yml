@@ -115,7 +115,7 @@ services:
 #      maria-network:
 #        ipv4_address: 192.168.10.14
  
-  ubunru:
+  tester:
     image: ubuntu:latest
     restart: always
     environment:
